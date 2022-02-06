@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 import requests
 from hijri_converter import Hijri, Gregorian
 
@@ -26,7 +27,9 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 ROOT_BOT_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
 
+msg = getRamadhanCountdownMessage() + '/' + datetime.now()
+
 res = requests.get(ROOT_BOT_URL + '/sendMessage', json={
     'chat_id': TELEGRAM_CHAT_ID,
-    'text': getRamadhanCountdownMessage(),
+    'text': msg,
 })
