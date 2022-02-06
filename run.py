@@ -9,22 +9,6 @@ try:
 except:
     print('failed importing dotenv module. skipping...')
 
-# count first day of ramadhan & countdown
-def getRamadhanCountdownMessage():
-    today_hijri = Hijri.today()
-    hijri_year = today_hijri.year
-    today_gregorian = Gregorian.today()
-
-    first_ramadhan = Hijri(hijri_year, 9, 1)
-    first_ramadhan_gregorian = first_ramadhan.to_gregorian()
-
-    days_to_ramadahan = (first_ramadhan_gregorian - today_gregorian).days
-
-    if days_to_ramadahan in range(1,100):
-        return f"{days_to_ramadahan} hari menuju Ramadhan {hijri_year} H\n\nApa yang sudah kamu persiapkan untuk Ramadhan kali ini?"
-    elif today_hijri.month == 9 : # is currently ramadhan
-        return f"Hari ke {today_hijri.date} Ramadhan {hijri_year} H. Mari jadikan Ramadhan kali ini Ramadhan terbaik kita selama ini!"
-
 # send telegram bot
 def sendTelegram(msg):
     TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
@@ -46,8 +30,27 @@ def postTwitter(msg):
         'value1': msg,
     })
 
+# count first day of ramadhan & countdown
+def sendRamadhanMessage():
+    today_hijri = Hijri.today()
+    hijri_year = today_hijri.year
+    today_gregorian = Gregorian.today()
+
+    first_ramadhan = Hijri(hijri_year, 9, 1)
+    first_ramadhan_gregorian = first_ramadhan.to_gregorian()
+
+    days_to_ramadahan = (first_ramadhan_gregorian - today_gregorian).days
+
+    msg = None
+    if days_to_ramadahan in range(1,100):
+        msg = f"{days_to_ramadahan} hari menuju Ramadhan {hijri_year} H\n\nApa yang sudah kamu persiapkan untuk Ramadhan kali ini?"
+    elif today_hijri.month == 9 : # is currently ramadhan
+        msg = f"Hari ke {today_hijri.date} Ramadhan {hijri_year} H. Mari jadikan Ramadhan kali ini Ramadhan terbaik kita selama ini!"
+
+    if msg is not None:
+        sendTelegram(msg)
+        postTwitter(msg)
+
 if __name__ == '__main__':
-    msg = getRamadhanCountdownMessage()
-    sendTelegram(msg)
-    postTwitter(msg)
+    sendRamadhanMessage()
 
