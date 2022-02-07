@@ -2,7 +2,7 @@ name: post-content-morning
 
 on:
   schedule:
-    - cron: '45 14 * * *' # runs every 5:00 WIB
+    - cron: '3 0 * * *' # runs every 7:03 WIB
 
 jobs:
   build:
