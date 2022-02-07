@@ -43,7 +43,6 @@ def sendRamadhanMessage():
     from datetime import date, timezone
     from zoneinfo import ZoneInfo
 
-    # Israel and US/Pacific time:wwwww
     today = date.today(ZoneInfo('Asia/Jakarta'))
     first_ramadhan = getFirstRamadhan(today).to_gregorian()
 
@@ -56,8 +55,9 @@ def sendRamadhanMessage():
         msg = f"Hari ke {today_hijri.date} Ramadhan {hijri_year} H. Mari jadikan Ramadhan kali ini Ramadhan terbaik kita selama ini!"
 
     if msg is not None:
+        print(msg)
         sendTelegram(msg)
-        #postTwitter(msg)
+        postTwitter(msg)
 
 if __name__ == '__main__':
     sendRamadhanMessage()
