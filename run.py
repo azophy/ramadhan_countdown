@@ -31,7 +31,9 @@ def postTwitter(msg):
     })
 
 def getFirstRamadhan(today=None):
-    today_gregorian = Gregorian.today() if today is None else today
+    today_gregorian = Gregorian.today() \
+                      if today is None else \
+                      Gregorian.fromdate(today)
     today_hijri = today_gregorian.to_hijri()
     hijri_year = today_hijri.year
 
