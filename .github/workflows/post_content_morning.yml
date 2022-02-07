@@ -2,7 +2,7 @@ name: post-content-morning
 
 on:
   schedule:
-    - cron: '3 0 * * *' # runs every 7:03 WIB
+    - cron: '3 22 * * *' # runs every 5:03 WIB
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
       - name: setup python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.7.7' # install the python version needed
+          python-version: '3.9' # install the python version needed
 
       - name: install python packages
         run: |

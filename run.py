@@ -30,16 +30,24 @@ def postTwitter(msg):
         'value1': msg,
     })
 
-# count first day of ramadhan & countdown
-def sendRamadhanMessage():
-    today_hijri = Hijri.today()
+def getFirstRamadhan(today=None):
+    today_gregorian = Gregorian.today() if today is None else today
+    today_hijri = today_gregorian.to_hijri()
     hijri_year = today_hijri.year
-    today_gregorian = Gregorian.today()
 
-    first_ramadhan = Hijri(hijri_year, 9, 1)
+    return Hijri(hijri_year, 9, 1)
     first_ramadhan_gregorian = first_ramadhan.to_gregorian()
 
-    days_to_ramadahan = (first_ramadhan_gregorian - today_gregorian).days
+# count first day of ramadhan & countdown
+def sendRamadhanMessage():
+    from datetime import date, timezone
+    from zoneinfo import ZoneInfo
+
+    # Israel and US/Pacific time:wwwww
+    today = date.today(ZoneInfo('Asia/Jakarta'))
+    first_ramadhan = getFirstRamadhan(today).to_gregorian()
+
+    days_to_ramadahan = (first_ramadhan - today).days
 
     msg = None
     if days_to_ramadahan in range(1,100):
@@ -49,7 +57,7 @@ def sendRamadhanMessage():
 
     if msg is not None:
         sendTelegram(msg)
-        postTwitter(msg)
+        #postTwitter(msg)
 
 if __name__ == '__main__':
     sendRamadhanMessage()
