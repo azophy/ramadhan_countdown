@@ -40,10 +40,10 @@ def getFirstRamadhan(today=None):
 
 # count first day of ramadhan & countdown
 def sendRamadhanMessage():
-    from datetime import date, timezone
+    from datetime import datetime, timezone
     from zoneinfo import ZoneInfo
 
-    today = date.today(ZoneInfo('Asia/Jakarta'))
+    today = datetime.now(ZoneInfo('Asia/Jakarta')).date()
     first_ramadhan = getFirstRamadhan(today).to_gregorian()
 
     days_to_ramadahan = (first_ramadhan - today).days
