@@ -1,40 +1,11 @@
-import os
-from datetime import datetime
-import requests
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 from hijri_converter import Hijri, Gregorian
 
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except:
-    print('failed importing dotenv module. skipping...')
-
-# send telegram bot
-def sendTelegram(msg):
-    TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
-    TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
-    ROOT_BOT_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
-
-    return requests.get(ROOT_BOT_URL + '/sendMessage', json={
-        'chat_id': TELEGRAM_CHAT_ID,
-        'text': msg,
-    })
-
-# post to twitter with IFTTT
-def postTwitter(msg):
-    IFTTT_TWITTER_EVENT_NAME = os.getenv('IFTTT_TWITTER_EVENT_NAME')
-    IFTTT_TWITTER_API_KEY = os.getenv('IFTTT_TWITTER_API_KEY')
-    IFTTT_TWITTER_TRIGGER_URL = f"https://maker.ifttt.com/trigger/{IFTTT_TWITTER_EVENT_NAME}/with/key/{IFTTT_TWITTER_API_KEY}"
-
-    return requests.post(IFTTT_TWITTER_TRIGGER_URL, {
-        'value1': msg,
-    })
+import helper as helper
 
 # count first day of ramadhan & countdown
 def sendRamadhanMessage():
-    from datetime import datetime, timezone
-    from zoneinfo import ZoneInfo
-
     today = datetime.now(ZoneInfo('Asia/Jakarta')).date()
     today_gregorian = Gregorian.fromdate(today)
     today_hijri = today_gregorian.to_hijri()
@@ -52,8 +23,8 @@ def sendRamadhanMessage():
 
     if msg is not None:
         print(msg)
-        sendTelegram(msg)
-        postTwitter(msg)
+        helper.sendTelegram(msg)
+        helper.postTwitter(msg)
 
 if __name__ == '__main__':
     sendRamadhanMessage()
