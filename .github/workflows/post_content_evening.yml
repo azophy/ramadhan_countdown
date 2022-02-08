@@ -2,7 +2,7 @@ name: post-content-morning
 
 on:
   schedule:
-    - cron: '3 22 * * *' # runs every 5:03 WIB
+    - cron: '3 10 * * *' # runs every 17:03 WIB
 
 jobs:
   build:
@@ -28,5 +28,5 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           IFTTT_TWITTER_EVENT_NAME: ${{ secrets.IFTTT_TWITTER_EVENT_NAME }}
           IFTTT_TWITTER_API_KEY: ${{ secrets.IFTTT_TWITTER_API_KEY }}
-        run: python run_morning.py
+        run: python run_evening.py
 
